@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 
 public class Node {
@@ -11,7 +12,12 @@ public class Node {
         this.adjacentNodes = adjacentNodes;
     }
 
-    public boolean canReach(Node nodeToFind,List<Node> visitedNodes) {
+    public boolean isPathAvailable(Node nodeToFind) {
+        List<Node> visitedNodes = new ArrayList<>();
+        return canReach(nodeToFind, visitedNodes);
+    }
+
+    private boolean canReach(Node nodeToFind, List<Node> visitedNodes) {
         visitedNodes.add(this);
         if( this.equals(nodeToFind)) {
             return true;

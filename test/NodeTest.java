@@ -20,7 +20,6 @@ public class NodeTest {
     Node g = new Node("g", new ArrayList<Node>());
     Node h = new Node("h", new ArrayList<Node>());
     Node k = new Node("h", new ArrayList<Node>());
-    private List<Node> visitedNodes;
 
     @Before
     public void setUp() throws Exception {
@@ -32,7 +31,6 @@ public class NodeTest {
         c.connectTo(e);
         d.connectTo(e);
         e.connectTo(b);
-        visitedNodes = new ArrayList<>();
     }
 
     @Test
@@ -43,7 +41,7 @@ public class NodeTest {
         Node a = new Node("a", adjacentNodes);
         adjacentNodes.add(b);
         adjacentNodes.add(c);
-        assertTrue(a.canReach(b,visitedNodes));
+        assertTrue(a.isPathAvailable(b));
     }
 
     @Test
@@ -55,7 +53,7 @@ public class NodeTest {
         Node b = new Node("b", new ArrayList<Node>(Arrays.asList(d)));
         adjacentNodes.add(b);
         adjacentNodes.add(c);
-        assertTrue(a.canReach(d,visitedNodes));
+        assertTrue(a.isPathAvailable(d));
     }
 
     @Test
@@ -65,7 +63,7 @@ public class NodeTest {
         Node a = new Node("a", new ArrayList<Node>());
         Node b = new Node("b", new ArrayList<Node>(Arrays.asList(a, c)));
         Node h = new Node("h", new ArrayList<Node>(Arrays.asList(b)));
-        assertTrue(h.canReach(d,visitedNodes));
+        assertTrue(h.isPathAvailable(d));
     }
 
     @Test
@@ -86,7 +84,7 @@ public class NodeTest {
 
         Node b = new Node("b", new ArrayList<Node>(Arrays.asList(a, c)));
         Node h = new Node("h", new ArrayList<Node>(Arrays.asList(b)));
-        assertFalse(h.canReach(e,visitedNodes));
+        assertFalse(h.isPathAvailable(e));
     }
 
 
@@ -97,7 +95,7 @@ public class NodeTest {
         c.connectTo(e);
         c.connectTo(d);
         d.connectTo(h);
-        assertTrue(e.canReach(h,visitedNodes));
+        assertTrue(e.isPathAvailable(h));
     }
 
     @Test
@@ -107,17 +105,17 @@ public class NodeTest {
 
     @Test
     public void shoudFindFFromC() {
-        assertTrue(c.canReach(f,visitedNodes));
+        assertTrue(c.isPathAvailable(f));
     }
 
     @Test
     public void shoudNotFindGFromE() {
-        assertFalse(e.canReach(g,visitedNodes));
+        assertFalse(e.isPathAvailable(g));
     }
 
     @Test
     public void shoudFindEFromE() {
-        assertTrue(e.canReach(e,visitedNodes));
+        assertTrue(e.isPathAvailable(e));
     }
 
 }
