@@ -22,7 +22,7 @@ public class Node {
 
     public boolean canReach(Node nodeToFind) {
         this.visit();
-        if(adjacentNodes.contains(nodeToFind)) {
+        if(adjacentNodes.contains(nodeToFind) || this == nodeToFind) {
             return true;
         }
         if(adjacentNodes.size()==0){

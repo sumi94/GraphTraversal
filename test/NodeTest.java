@@ -107,7 +107,22 @@ public class NodeTest {
     }
 
     @Test
-    public void shoudldFindFFromC() {
+    public void shoudFindFFromC() {
         assertTrue(c.canReach(f));
+    }
+
+    @Test
+    public void shoudNotFindFFromC() {
+        assertFalse(e.canReach(g));
+    }
+
+    @Test
+    public void shoudFindEFromE() {
+        assertTrue(e.canReach(e));
+    }
+
+    @Test
+    public void shouldFindHFromH() {
+        assertTrue(h.canReach(h));
     }
 }
