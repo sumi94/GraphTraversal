@@ -118,4 +118,10 @@ public class NodeTest {
         assertTrue(e.isPathAvailable(e));
     }
 
+    @Test
+    public void shoudFindFFromCAndAgainFindFFromC() {
+        assertTrue(c.isPathAvailable(f));
+        assertTrue(c.isPathAvailable(f));
+    }
+
 }
