@@ -11,15 +11,16 @@ import static org.junit.Assert.assertTrue;
 
 public class NodeTest {
 
-    List adjacentNodes = new ArrayList();
-    Node a = new Node("a",false, new ArrayList<Node>());
-    Node b = new Node("b",false, new ArrayList<Node>());
-    Node c = new Node("c",false, new ArrayList<Node>());
-    Node d = new Node("d",false, new ArrayList<Node>());
-    Node e = new Node("e",false, new ArrayList<Node>());
-    Node f = new Node("f",false, new ArrayList<Node>());
-    Node g = new Node("g",false, new ArrayList<Node>());
-    Node h = new Node("h",false, new ArrayList<Node>());
+    Node a = new Node("a", new ArrayList<Node>());
+    Node b = new Node("b", new ArrayList<Node>());
+    Node c = new Node("c", new ArrayList<Node>());
+    Node d = new Node("d", new ArrayList<Node>());
+    Node e = new Node("e", new ArrayList<Node>());
+    Node f = new Node("f", new ArrayList<Node>());
+    Node g = new Node("g", new ArrayList<Node>());
+    Node h = new Node("h", new ArrayList<Node>());
+    Node k = new Node("h", new ArrayList<Node>());
+    private List<Node> visitedNodes;
 
     @Before
     public void setUp() throws Exception {
@@ -31,53 +32,46 @@ public class NodeTest {
         c.connectTo(e);
         d.connectTo(e);
         e.connectTo(b);
-    }
-
-    @Test
-    public void shouldMarkVistitedTrueWhenIInvokeTheMethod() {
-        boolean visited = false;
-        Node node = new Node("a",visited, null);
-        node.visit();
-        assertEquals(true,node.getVisited());
+        visitedNodes = new ArrayList<>();
     }
 
     @Test
     public void shouldFindIfTheNodeIsAdjacent() {
         List<Node> adjacentNodes = new ArrayList<>();
-        Node b = new Node("b",false, null);
-        Node c = new Node("c",false, null);
-        Node a = new Node("a",false,adjacentNodes);
+        Node b = new Node("b", null);
+        Node c = new Node("c", null);
+        Node a = new Node("a", adjacentNodes);
         adjacentNodes.add(b);
         adjacentNodes.add(c);
-        assertTrue(a.canReach(b));
+        assertTrue(a.canReach(b,visitedNodes));
     }
 
     @Test
     public void shouldFindDFromA() {
         List<Node> adjacentNodes = new ArrayList<>();
-        Node a = new Node("a",false,adjacentNodes);
-        Node c = new Node("c",false, null);
-        Node d = new Node("d",false, null);
-        Node b = new Node("b",false, new ArrayList<Node>(Arrays.asList(d)));
+        Node a = new Node("a", adjacentNodes);
+        Node c = new Node("c", null);
+        Node d = new Node("d", null);
+        Node b = new Node("b", new ArrayList<Node>(Arrays.asList(d)));
         adjacentNodes.add(b);
         adjacentNodes.add(c);
-        assertTrue(a.canReach(d));
+        assertTrue(a.canReach(d,visitedNodes));
     }
 
     @Test
     public void shouldFindDFromH() {
-        Node d = new Node("d",false, new ArrayList<Node>());
-        Node c = new Node("c",false, new ArrayList<Node>(Arrays.asList(d)));
-        Node a = new Node("a",false, new ArrayList<Node>());
-        Node b = new Node("b",false, new ArrayList<Node>(Arrays.asList(a, c)));
-        Node h = new Node("h",false,new ArrayList<Node>(Arrays.asList(b)));
-        assertTrue(h.canReach(d));
+        Node d = new Node("d", new ArrayList<Node>());
+        Node c = new Node("c", new ArrayList<Node>(Arrays.asList(d)));
+        Node a = new Node("a", new ArrayList<Node>());
+        Node b = new Node("b", new ArrayList<Node>(Arrays.asList(a, c)));
+        Node h = new Node("h", new ArrayList<Node>(Arrays.asList(b)));
+        assertTrue(h.canReach(d,visitedNodes));
     }
 
     @Test
     public void shouldAddDAsAdjacentToC() {
-        Node d = new Node("d",false, new ArrayList<Node>());
-        Node c = new Node("c",false, new ArrayList<Node>());
+        Node d = new Node("d", new ArrayList<Node>());
+        Node c = new Node("c", new ArrayList<Node>());
         c.connectTo(d);
         assertEquals(1, c.noOfAdjacents());
     }
@@ -85,14 +79,14 @@ public class NodeTest {
 
     @Test
     public void shouldFindEFromH() {
-        Node e = new Node("e",false, new ArrayList<Node>());
-        Node d = new Node("d",false, new ArrayList<Node>());
-        Node c = new Node("c",false, new ArrayList<Node>(Arrays.asList(d)));
-        Node a = new Node("a",false, new ArrayList<Node>());
+        Node e = new Node("e", new ArrayList<Node>());
+        Node d = new Node("d", new ArrayList<Node>());
+        Node c = new Node("c", new ArrayList<Node>(Arrays.asList(d)));
+        Node a = new Node("a", new ArrayList<Node>());
 
-        Node b = new Node("b",false, new ArrayList<Node>(Arrays.asList(a, c)));
-        Node h = new Node("h",false,new ArrayList<Node>(Arrays.asList(b)));
-        assertFalse(h.canReach(e));
+        Node b = new Node("b", new ArrayList<Node>(Arrays.asList(a, c)));
+        Node h = new Node("h", new ArrayList<Node>(Arrays.asList(b)));
+        assertFalse(h.canReach(e,visitedNodes));
     }
 
 
@@ -103,26 +97,27 @@ public class NodeTest {
         c.connectTo(e);
         c.connectTo(d);
         d.connectTo(h);
-        assertTrue(e.canReach(h));
+        assertTrue(e.canReach(h,visitedNodes));
+    }
+
+    @Test
+    public void HIsEqualToH() {
+        assertEquals(h, h);
     }
 
     @Test
     public void shoudFindFFromC() {
-        assertTrue(c.canReach(f));
+        assertTrue(c.canReach(f,visitedNodes));
     }
 
     @Test
-    public void shoudNotFindFFromC() {
-        assertFalse(e.canReach(g));
+    public void shoudNotFindGFromE() {
+        assertFalse(e.canReach(g,visitedNodes));
     }
 
     @Test
     public void shoudFindEFromE() {
-        assertTrue(e.canReach(e));
+        assertTrue(e.canReach(e,visitedNodes));
     }
 
-    @Test
-    public void shouldFindHFromH() {
-        assertTrue(h.canReach(h));
-    }
 }

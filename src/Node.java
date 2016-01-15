@@ -6,30 +6,18 @@ public class Node {
     private boolean visited;
     private List<Node> adjacentNodes;
 
-    public Node(String name, boolean visited, List<Node> adjacentNodes) {
+    public Node(String name, List<Node> adjacentNodes) {
         this.name = name;
-        this.visited = visited;
         this.adjacentNodes = adjacentNodes;
     }
 
-    public void visit() {
-         visited = true;
-    }
-
-    public boolean getVisited() {
-        return visited;
-    }
-
-    public boolean canReach(Node nodeToFind) {
-        this.visit();
-        if(adjacentNodes.contains(nodeToFind) || this == nodeToFind) {
+    public boolean canReach(Node nodeToFind,List<Node> visitedNodes) {
+        visitedNodes.add(this);
+        if( this.equals(nodeToFind)) {
             return true;
         }
-        if(adjacentNodes.size()==0){
-            return false;
-        }
         for(Node node : adjacentNodes){
-            if(!node.visited && node.canReach(nodeToFind)){
+            if(!visitedNodes.contains(node) && node.canReach(nodeToFind,visitedNodes)){
                 return true;
             }
         }
@@ -43,4 +31,5 @@ public class Node {
     public int noOfAdjacents() {
         return adjacentNodes.size();
     }
+
 }
